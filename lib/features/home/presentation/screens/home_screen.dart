@@ -18,15 +18,15 @@ class HomeScreen extends ConsumerWidget {
     // List of widgets to display based on bottom nav selection
     final screens = [
       const ListingTab(listingType: null), // All listings
-      const ListingTab(listingType: 'sell'), // Sell listings
-      const ListingTab(listingType: 'rent'), // Rent listings
+      const Text('Favoriler'), // Sell listings
+      const Text('Yeni İlan'), // Rent listings
       const ProfileScreen(), // Profile tab
     ];
 
     return Scaffold(
       body: screens[selectedIndex],
-      bottomNavigationBar: _buildBottomNavigationBar(context, ref, selectedIndex),
-      floatingActionButton: _buildFloatingActionButton(context),
+      bottomNavigationBar:
+          _buildBottomNavigationBar(context, ref, selectedIndex),
     );
   }
 
@@ -83,7 +83,7 @@ class HomeScreen extends ConsumerWidget {
                     backgroundColor:
                         selectedIndex == 1 ? Colors.black : Colors.white,
                     child: Icon(
-                      Icons.sell_outlined,
+                      Icons.favorite_border,
                       size: 26,
                       color: selectedIndex == 1 ? Colors.white : Colors.black,
                     ),
@@ -96,7 +96,7 @@ class HomeScreen extends ConsumerWidget {
                     backgroundColor:
                         selectedIndex == 2 ? Colors.black : Colors.white,
                     child: Icon(
-                      Icons.apartment_outlined,
+                      Icons.add_circle_outline,
                       size: 26,
                       color: selectedIndex == 2 ? Colors.white : Colors.black,
                     ),

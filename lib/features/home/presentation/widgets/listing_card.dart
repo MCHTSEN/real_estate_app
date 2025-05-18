@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/core/extensions/string_extensions.dart';
 import 'package:real_estate_app/core/theme/custom_colors.dart';
 import 'package:real_estate_app/features/home/domain/models/listing_model.dart';
+import 'package:real_estate_app/features/home/providers/favorite_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_app/features/listing/presentation/screens/listing_detail_screen.dart';
 
-class ListingCard extends StatelessWidget {
+class ListingCard extends ConsumerWidget {
   final ListingModel listing;
   final VoidCallback? onTap;
 
@@ -18,7 +20,10 @@ class ListingCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isFavorite =
+        ref.watch(favoritesProvider).any((item) => item.id == listing.id);
+
     return GestureDetector(
       onTap: () {
         context.goNamed(
@@ -40,7 +45,33 @@ class ListingCard extends StatelessWidget {
               _buildImageSection(),
               _buildInfoSection(context),
               _buildTypeLabel(),
+              _buildFavoriteButton(context, ref, isFavorite),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFavoriteButton(
+      BuildContext context, WidgetRef ref, bool isFavorite) {
+    return Positioned(
+      top: 15,
+      right: 15,
+      child: GestureDetector(
+        onTap: () {
+          ref.read(favoritesProvider.notifier).toggleFavorite(listing);
+        },
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.8),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            isFavorite ? Icons.favorite : Icons.favorite_border,
+            color: isFavorite ? Colors.red : Colors.grey,
+            size: 24,
           ),
         ),
       ),

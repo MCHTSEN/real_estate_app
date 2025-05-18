@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'dart:ui';
 import 'package:real_estate_app/features/auth/providers/auth_provider.dart';
 import 'package:real_estate_app/features/home/presentation/widgets/listing_tab.dart';
+import 'package:real_estate_app/features/home/presentation/screens/favorites_screen.dart';
 import 'package:real_estate_app/features/listing/presentation/screens/add_listing_screen.dart';
 import 'package:real_estate_app/features/profile/presentation/screens/profile_screen.dart';
 
@@ -19,7 +20,7 @@ class HomeScreen extends ConsumerWidget {
     // List of widgets to display based on bottom nav selection
     final screens = [
       const ListingTab(listingType: null), // All listings
-      const Text('Favoriler'), // Sell listings
+      const FavoritesScreen(), // Favorites screen
       const AddListingScreen(), // Add listing tab
       const ProfileScreen(), // Profile tab
     ];

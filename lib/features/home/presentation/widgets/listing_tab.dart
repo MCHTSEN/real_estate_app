@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/features/home/domain/models/listing_model.dart';
 import 'package:real_estate_app/features/home/providers/listing_provider.dart';
-import 'package:real_estate_app/features/home/presentation/widgets/listing_card.dart';
+import 'package:real_estate_app/features/home/providers/favorite_provider.dart';
 import 'package:real_estate_app/features/auth/providers/auth_provider.dart';
 import 'package:real_estate_app/features/auth/providers/user_provider.dart';
+import 'package:real_estate_app/features/home/presentation/widgets/listing_card.dart';
 import 'package:go_router/go_router.dart';
 
 final selectedFilterProvider = StateProvider<String?>((ref) => null);
@@ -201,7 +202,14 @@ class ListingTab extends ConsumerWidget {
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  'İlanlarım (0)',
+                                  'İlanlarım (${ref.watch(listingsProvider(null)).when(
+                                        data: (listings) => listings
+                                            .where((listing) =>
+                                                listing.userId == userModel.uid)
+                                            .length,
+                                        loading: () => 0,
+                                        error: (_, __) => 0,
+                                      )})',
                                   style: theme.textTheme.bodyLarge?.copyWith(
                                     fontWeight: FontWeight.w500,
                                     color: theme.colorScheme.onSurface,
@@ -232,7 +240,7 @@ class ListingTab extends ConsumerWidget {
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  'Favoriler (0)',
+                                  'Favoriler (${ref.watch(favoritesProvider).length})',
                                   style: theme.textTheme.bodyLarge?.copyWith(
                                     fontWeight: FontWeight.w500,
                                     color: theme.colorScheme.onSurface,

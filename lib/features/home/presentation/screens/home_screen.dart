@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'dart:ui';
 import 'package:real_estate_app/features/auth/providers/auth_provider.dart';
 import 'package:real_estate_app/features/home/presentation/widgets/listing_tab.dart';
 import 'package:real_estate_app/features/profile/presentation/screens/profile_screen.dart';
@@ -23,44 +24,96 @@ class HomeScreen extends ConsumerWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Emlak Uygulaması'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              // TODO: Implement filter feature
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text('Filtreleme özelliği yakında!')));
-            },
-          ),
-        ],
-      ),
       body: screens[selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedIndex,
-        type: BottomNavigationBarType.fixed,
-        onTap: (index) {
-          ref.read(selectedNavIndexProvider.notifier).state = index;
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Tümü',
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(99),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Container(
+              height: 80,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(25),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: BottomNavigationBar(
+                currentIndex: selectedIndex,
+                type: BottomNavigationBarType.fixed,
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                showSelectedLabels: false,
+                showUnselectedLabels: false,
+                onTap: (index) {
+                  ref.read(selectedNavIndexProvider.notifier).state = index;
+                },
+                selectedItemColor: Theme.of(context).primaryColor,
+                unselectedItemColor: Colors.grey,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: CircleAvatar(
+                      radius: 22,
+                      backgroundColor:
+                          selectedIndex == 0 ? Colors.black : Colors.white,
+                      child: Icon(
+                        Icons.home_outlined,
+                        size: 26,
+                        color: selectedIndex == 0 ? Colors.white : Colors.black,
+                      ),
+                    ),
+                    label: '',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: CircleAvatar(
+                      radius: 22,
+                      backgroundColor:
+                          selectedIndex == 1 ? Colors.black : Colors.white,
+                      child: Icon(
+                        Icons.sell_outlined,
+                        size: 26,
+                        color: selectedIndex == 1 ? Colors.white : Colors.black,
+                      ),
+                    ),
+                    label: '',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: CircleAvatar(
+                      radius: 22,
+                      backgroundColor:
+                          selectedIndex == 2 ? Colors.black : Colors.white,
+                      child: Icon(
+                        Icons.apartment_outlined,
+                        size: 26,
+                        color: selectedIndex == 2 ? Colors.white : Colors.black,
+                      ),
+                    ),
+                    label: '',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: CircleAvatar(
+                      radius: 22,
+                      backgroundColor:
+                          selectedIndex == 3 ? Colors.black : Colors.white,
+                      child: Icon(
+                        Icons.person_outline,
+                        size: 26,
+                        color: selectedIndex == 3 ? Colors.white : Colors.black,
+                      ),
+                    ),
+                    label: '',
+                  ),
+                ],
+              ),
+            ),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.sell),
-            label: 'Satılık',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.apartment),
-            label: 'Kiralık',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profil',
-          ),
-        ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

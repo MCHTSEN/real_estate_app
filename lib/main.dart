@@ -30,6 +30,7 @@ class MainApp extends ConsumerWidget {
 
     return MaterialApp.router(
       title: 'Emlak Uygulaması',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.grey[100],

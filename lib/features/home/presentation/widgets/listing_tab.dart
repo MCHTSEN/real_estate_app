@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/features/home/domain/models/listing_model.dart';
 import 'package:real_estate_app/features/home/providers/listing_provider.dart';
 import 'package:real_estate_app/features/home/presentation/widgets/listing_card.dart';
+import 'package:real_estate_app/features/auth/providers/auth_provider.dart';
+import 'package:real_estate_app/features/auth/providers/user_provider.dart';
+import 'package:go_router/go_router.dart';
 
 final selectedFilterProvider = StateProvider<String?>((ref) => null);
 final searchQueryProvider = StateProvider<String>((ref) => '');
@@ -46,9 +49,108 @@ class ListingTab extends ConsumerWidget {
     final isFilterMenuOpen = ref.watch(isFilterMenuOpenProvider);
     final searchQuery = ref.watch(searchQueryProvider);
     final selectedFilters = ref.watch(selectedFiltersProvider);
+    final theme = Theme.of(context);
+    final userModelAsync = ref.watch(userProvider);
+    final user = ref.watch(authProvider).value;
 
     return Column(
       children: [
+        // User Profile Header
+        Container(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surface,
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(24),
+              bottomRight: Radius.circular(24),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: theme.colorScheme.shadow.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: userModelAsync.when(
+            data: (userModel) => Row(
+              children: [
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.primary,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Text(
+                      userModel != null
+                          ? '${userModel.firstName[0]}${userModel.lastName[0]}'
+                          : user?.email?[0].toUpperCase() ?? 'G',
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        color: theme.colorScheme.onPrimary,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        userModel != null
+                            ? '${userModel.firstName} ${userModel.lastName}'
+                            : 'Misafir Kullanıcı',
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      if (userModel != null)
+                        Text(
+                          userModel.phone,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                if (user != null)
+                  IconButton(
+                    onPressed: () => context.push('/profile'),
+                    icon: Icon(
+                      Icons.account_circle_outlined,
+                      color: theme.colorScheme.primary,
+                    ),
+                    tooltip: 'Profil',
+                  )
+                else
+                  FilledButton.tonal(
+                    onPressed: () => context.go('/login'),
+                    style: FilledButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                    ),
+                    child: const Text('Giriş Yap'),
+                  ),
+              ],
+            ),
+            loading: () => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            error: (_, __) => Center(
+              child: Text(
+                'Kullanıcı bilgileri yüklenemedi',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.error,
+                ),
+              ),
+            ),
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(

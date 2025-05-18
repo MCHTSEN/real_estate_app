@@ -23,6 +23,10 @@ dependencies:
   # Image Caching
   cached_network_image: ^3.3.1
   intl: ^0.20.2
+  # UI Components
+  flutter_carousel_widget: ^2.2.0
+  smooth_page_indicator: ^1.1.0
+  url_launcher: ^6.2.4
 
 dev_dependencies:
   flutter_test:

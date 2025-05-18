@@ -6,10 +6,12 @@ import 'package:real_estate_app/features/auth/presentation/screens/register_scre
 import 'package:real_estate_app/features/auth/presentation/screens/user_details_screen.dart';
 import 'package:real_estate_app/features/auth/providers/auth_provider.dart';
 import 'package:real_estate_app/features/auth/providers/user_provider.dart';
+import 'package:real_estate_app/features/home/domain/models/listing_model.dart';
 import 'package:real_estate_app/features/home/presentation/screens/home_screen.dart';
 import 'package:real_estate_app/features/listing/presentation/screens/add_listing_screen.dart';
 import 'package:real_estate_app/features/profile/presentation/screens/profile_screen.dart';
 import 'package:real_estate_app/features/splash/splash_screen.dart';
+import 'package:real_estate_app/features/listing/presentation/screens/listing_detail_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   debugPrint('📍 Initializing Router Provider');
@@ -136,6 +138,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           debugPrint('🎨 Building User Details Screen');
           final uid = state.pathParameters['uid']!;
           return UserDetailsScreen(uid: uid);
+        },
+      ),
+      GoRoute(
+        name: 'listing-detail',
+        path: '/listing/:id',
+        builder: (context, state) {
+          debugPrint('🎨 Building Listing Detail Screen');
+          final listing = state.extra as ListingModel;
+          return ListingDetailScreen(listing: listing);
         },
       ),
     ],

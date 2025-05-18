@@ -219,7 +219,8 @@ class ProfileScreen extends ConsumerWidget {
                                   Container(
                                     padding: const EdgeInsets.all(24),
                                     decoration: BoxDecoration(
-                                      color: theme.colorScheme.surfaceVariant
+                                      color: theme
+                                          .colorScheme.surfaceContainerHighest
                                           .withOpacity(0.3),
                                       shape: BoxShape.circle,
                                     ),

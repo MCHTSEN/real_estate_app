@@ -4,6 +4,8 @@ import 'package:real_estate_app/core/extensions/string_extensions.dart';
 import 'package:real_estate_app/core/theme/custom_colors.dart';
 import 'package:real_estate_app/features/home/domain/models/listing_model.dart';
 import 'package:intl/intl.dart';
+import 'package:go_router/go_router.dart';
+import 'package:real_estate_app/features/listing/presentation/screens/listing_detail_screen.dart';
 
 class ListingCard extends StatelessWidget {
   final ListingModel listing;
@@ -17,20 +19,29 @@ class ListingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(28),
-      ),
-      child: SizedBox(
-        height: 360,
-        child: Stack(
-          children: [
-            _buildImageSection(),
-            _buildInfoSection(context),
-            _buildTypeLabel(),
-          ],
+    return GestureDetector(
+      onTap: () {
+        context.goNamed(
+          'listing-detail',
+          pathParameters: {'id': listing.id},
+          extra: listing,
+        );
+      },
+      child: Card(
+        elevation: 2,
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(28),
+        ),
+        child: SizedBox(
+          height: 360,
+          child: Stack(
+            children: [
+              _buildImageSection(),
+              _buildInfoSection(context),
+              _buildTypeLabel(),
+            ],
+          ),
         ),
       ),
     );

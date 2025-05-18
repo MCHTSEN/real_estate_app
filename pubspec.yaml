@@ -22,6 +22,7 @@ dependencies:
   go_router: ^13.0.1
   # Image Caching
   cached_network_image: ^3.3.1
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:

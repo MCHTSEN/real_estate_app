@@ -17,206 +17,326 @@ class ProfileScreen extends ConsumerWidget {
     developer.log('ProfileScreen: build called');
     final authState = ref.watch(authProvider);
     final userModelData = ref.watch(userProvider);
-    developer.log('ProfileScreen: authState = $authState');
+    final theme = Theme.of(context);
 
     return authState.when(
       data: (user) {
-        developer.log('ProfileScreen: authState.when data: user = $user');
         if (user == null) {
-          developer.log('ProfileScreen: User is null, navigating to login');
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Giriş yapmanız gerekiyor'),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    developer.log('ProfileScreen: Navigating to /login');
-                    context.go('/login');
-                  },
-                  child: const Text('Giriş Yap'),
+          return Scaffold(
+            body: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    theme.colorScheme.primary.withOpacity(0.1),
+                    theme.colorScheme.surface,
+                  ],
                 ),
-              ],
+              ),
+              child: Center(
+                child: Card(
+                  elevation: 4,
+                  shadowColor: theme.colorScheme.shadow.withOpacity(0.2),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.account_circle_outlined,
+                          size: 64,
+                          color: theme.colorScheme.primary,
+                        ),
+                        const SizedBox(height: 24),
+                        Text(
+                          'Giriş Yapın',
+                          style: theme.textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          'İlanlarınızı yönetmek için lütfen giriş yapın',
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.bodyLarge?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        FilledButton.icon(
+                          onPressed: () => context.go('/login'),
+                          icon: const Icon(Icons.login),
+                          label: const Text('Giriş Yap'),
+                          style: FilledButton.styleFrom(
+                            minimumSize: const Size(200, 48),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
           );
         }
 
-        developer.log('ProfileScreen: User is logged in, displaying profile');
         return Scaffold(
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // User profile header
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(16),
-                  color: Colors.white,
+          body: CustomScrollView(
+            slivers: [
+              SliverAppBar.large(
+                expandedHeight: 200,
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  title: Text(
+                    userModelData.when(
+                      data: (userModel) => userModel != null
+                          ? '${userModel.firstName} ${userModel.lastName}'
+                          : user.email?.split('@')[0] ?? 'Kullanıcı',
+                      loading: () => 'Yükleniyor...',
+                      error: (e, s) => user.email?.split('@')[0] ?? 'Kullanıcı',
+                    ),
+                    style: TextStyle(
+                      color: theme.colorScheme.onSurface,
+                    ),
+                  ),
+                  background: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          theme.colorScheme.primary.withOpacity(0.2),
+                          theme.colorScheme.surface,
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const CircleAvatar(
-                        radius: 40,
-                        backgroundColor: Colors.blue,
-                        child: Icon(
-                          Icons.person,
-                          size: 40,
-                          color: Colors.white,
+                      Card(
+                        elevation: 0,
+                        color: theme.colorScheme.secondaryContainer
+                            .withOpacity(0.3),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 30,
+                                backgroundColor: theme.colorScheme.primary,
+                                child: Text(
+                                  userModelData.when(
+                                    data: (userModel) => userModel != null
+                                        ? '${userModel.firstName[0]}${userModel.lastName[0]}'
+                                        : user.email?[0].toUpperCase() ?? 'K',
+                                    loading: () => '...',
+                                    error: (e, s) =>
+                                        user.email?[0].toUpperCase() ?? 'K',
+                                  ),
+                                  style: theme.textTheme.titleLarge?.copyWith(
+                                    color: theme.colorScheme.onPrimary,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'E-posta',
+                                      style:
+                                          theme.textTheme.bodySmall?.copyWith(
+                                        color:
+                                            theme.colorScheme.onSurfaceVariant,
+                                      ),
+                                    ),
+                                    Text(
+                                      user.email ?? '',
+                                      style: theme.textTheme.bodyLarge,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  ref.read(authServiceProvider).signOut();
+                                },
+                                icon: const Icon(Icons.logout),
+                                tooltip: 'Çıkış Yap',
+                                color: theme.colorScheme.error,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      Text(
-                        userModelData.when(
-                          data: (userModel) => userModel != null
-                              ? '${userModel.firstName} ${userModel.lastName}'
-                              : user.email ?? 'Kullanıcı',
-                          loading: () => 'Yükleniyor...',
-                          error: (e, s) => user.email ?? 'Kullanıcı',
-                        ),
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      ElevatedButton.icon(
-                        icon: const Icon(Icons.logout),
-                        label: const Text('Çıkış Yap'),
-                        onPressed: () {
-                          developer.log('ProfileScreen: Signing out user');
-                          ref.read(authServiceProvider).signOut();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red[50],
-                          foregroundColor: Colors.red,
-                        ),
+                      const SizedBox(height: 24),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'İlanlarım',
+                            style: theme.textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          FilledButton.tonalIcon(
+                            onPressed: () => context.push('/add-listing'),
+                            icon: const Icon(Icons.add),
+                            label: const Text('Yeni İlan'),
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.all(16.0),
+                sliver: Consumer(
+                  builder: (context, ref, child) {
+                    final userListingsAsync =
+                        ref.watch(userListingsProvider(user.uid));
 
-                // User listings
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'İlanlarım',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-
-                      // Display user listings
-                      Consumer(
-                        builder: (context, ref, child) {
-                          developer
-                              .log('ProfileScreen: Consumer builder called');
-                          final userListingsAsync =
-                              ref.watch(userListingsProvider(user.uid));
-                          developer.log(
-                              'ProfileScreen: userListingsAsync = $userListingsAsync');
-
-                          return userListingsAsync.when(
-                            data: (listings) {
-                              developer.log(
-                                  'ProfileScreen: userListingsAsync.when data: listings = $listings');
-                              if (listings.isEmpty) {
-                                developer.log(
-                                    'ProfileScreen: No listings found for user');
-                                return Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(32.0),
-                                    child: Column(
-                                      children: [
-                                        const Icon(
-                                          Icons.home_work,
-                                          size: 48,
-                                          color: Colors.grey,
-                                        ),
-                                        const SizedBox(height: 16),
-                                        const Text(
-                                          'Henüz ilan eklemediniz',
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 16),
-                                        ElevatedButton.icon(
-                                          icon: const Icon(Icons.add),
-                                          label: const Text('İlan Ekle'),
-                                          onPressed: () {
-                                            developer.log(
-                                                'ProfileScreen: Navigating to /add-listing');
-                                            context.push('/add-listing');
-                                          },
-                                        ),
-                                      ],
+                    return userListingsAsync.when(
+                      data: (listings) {
+                        if (listings.isEmpty) {
+                          return SliverFillRemaining(
+                            hasScrollBody: false,
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(24),
+                                    decoration: BoxDecoration(
+                                      color: theme.colorScheme.surfaceVariant
+                                          .withOpacity(0.3),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.home_work_outlined,
+                                      size: 48,
+                                      color: theme.colorScheme.primary,
                                     ),
                                   ),
-                                );
-                              }
-
-                              developer.log(
-                                  'ProfileScreen: Found ${listings.length} listings for user');
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: listings.length,
-                                itemBuilder: (context, index) {
-                                  developer.log(
-                                      'ProfileScreen: Building listing card at index $index');
-                                  return Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0),
-                                    child:
-                                        ListingCard(listing: listings[index]),
-                                  );
-                                },
-                              );
-                            },
-                            loading: () {
-                              developer.log(
-                                  'ProfileScreen: userListingsAsync.when loading');
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            },
-                            error: (error, stack) {
-                              developer.log(
-                                  'ProfileScreen: userListingsAsync.when error: $error, stack: $stack');
-                              return Center(
-                                child: Text('Hata: $error'),
-                              );
-                            },
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    'Henüz İlan Eklemediniz',
+                                    style:
+                                        theme.textTheme.titleMedium?.copyWith(
+                                      color: theme.colorScheme.onSurfaceVariant,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Yeni bir ilan ekleyerek başlayın',
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      color: theme.colorScheme.onSurfaceVariant,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           );
-                        },
+                        }
+
+                        return SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              final listing = listings[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 12.0),
+                                child: ListingCard(listing: listing),
+                              );
+                            },
+                            childCount: listings.length,
+                          ),
+                        );
+                      },
+                      loading: () => const SliverFillRemaining(
+                        hasScrollBody: false,
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       ),
-                    ],
-                  ),
+                      error: (error, stack) => SliverFillRemaining(
+                        hasScrollBody: false,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.error_outline,
+                                size: 48,
+                                color: theme.colorScheme.error,
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                'Bir hata oluştu',
+                                style: theme.textTheme.titleMedium?.copyWith(
+                                  color: theme.colorScheme.error,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                error.toString(),
+                                style: theme.textTheme.bodyMedium,
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
-      loading: () {
-        developer.log('ProfileScreen: authState.when loading');
-        return const Center(
+      loading: () => const Scaffold(
+        body: Center(
           child: CircularProgressIndicator(),
-        );
-      },
-      error: (error, stack) {
-        developer
-            .log('ProfileScreen: authState.when error: $error, stack: $stack');
-        return Center(
-          child: Text('Hata: $error'),
-        );
-      },
+        ),
+      ),
+      error: (error, stack) => Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.error_outline,
+                size: 48,
+                color: theme.colorScheme.error,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Bir hata oluştu',
+                style: TextStyle(
+                  color: theme.colorScheme.error,
+                  fontSize: 18,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                error.toString(),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

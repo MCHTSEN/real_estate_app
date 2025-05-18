@@ -1,39 +1,39 @@
 # 🏠 Emlak Uygulaması - Roadmap.md
 
 ## ✅ Başlangıç Aşaması
-- [ ] Paketler ekle (`flutter_riverpod`, `image_picker`,`firebase_core`, `firebase_auth`, `cloud_firestore`, vs.)
-- [ ] Firebase kurulumu (auth, firestore, storage)
+- [x] Paketler ekle (`flutter_riverpod`, `image_picker`,`firebase_core`, `firebase_auth`, `cloud_firestore`, vs.)
+- [x] Firebase kurulumu (auth, firestore, storage)
 
 ---
 
 ## 👤 Authentication (Giriş / Kayıt)
-- [ ] Firebase Auth entegrasyonu
-- [ ] E-mail & Şifre ile giriş / kayıt ekranları
-- [ ] Form validasyonları (email, şifre)
-- [ ] Şifre göster/gizle özelliği
-- [ ] Giriş sonrası yönlendirme (GoRouter ile)
+- [x] Firebase Auth entegrasyonu
+- [x] E-mail & Şifre ile giriş / kayıt ekranları
+- [x] Form validasyonları (email, şifre)
+- [x] Şifre göster/gizle özelliği
+- [x] Giriş sonrası yönlendirme (GoRouter ile)
 
 ---
 
 ## 📸 İlan Yükleme Modülü
-- [ ] "İlan Yükle" ekranı tasarımı
-- [ ] Satılık / Kiralık seçimi
-- [ ] İlan görseli ekleme (galeri/kamera)
-- [ ] Oda sayısı, m², açıklama alanları
-- [ ] Lokasyon seçimi (şehir, ilçe, mahalle - dropdown)
-- [ ] Kullanıcıdan gelen bilgiler: isim, tel, uid ile eşle
-- [ ] Firestore'a ilan kaydetme
-- [ ] Firebase Storage'a fotoğraf yükleme
-- [ ] Başarılı gönderim sonrası snackbar ve yönlendirme
+- [x] "İlan Yükle" ekranı tasarımı
+- [x] Satılık / Kiralık seçimi
+- [x] İlan görseli ekleme (galeri/kamera)
+- [x] Oda sayısı, m², açıklama alanları
+- [x] Lokasyon seçimi (şehir, ilçe, mahalle - dropdown)
+- [x] Kullanıcıdan gelen bilgiler: isim, tel, uid ile eşle
+- [x] Firestore'a ilan kaydetme
+- [x] Firebase Storage'a fotoğraf yükleme
+- [x] Başarılı gönderim sonrası snackbar ve yönlendirme
 
 ---
 
 ## 🏡 İlanları Listeleme
-- [ ] Ana sayfa: tüm ilanları listele (satılık + kiralık)
-- [ ] Satılık ilanlar sekmesi
-- [ ] Kiralık ilanlar sekmesi
-- [ ] Firestore'dan ilanları çekme (real-time stream veya pagination)
-- [ ] İlan kart tasarımı (resim, fiyat, m², lokasyon, kısa açıklama)
+- [x] Ana sayfa: tüm ilanları listele (satılık + kiralık)
+- [x] Satılık ilanlar sekmesi
+- [x] Kiralık ilanlar sekmesi
+- [x] Firestore'dan ilanları çekme (real-time stream veya pagination)
+- [x] İlan kart tasarımı (resim, fiyat, m², lokasyon, kısa açıklama)
 
 ---
 
@@ -46,9 +46,9 @@
 ---
 
 ## 🧑‍💼 Kullanıcı Profili
-- [ ] Profil ekranı (ad, e-posta, tel)
-- [ ] Kullanıcının eklediği ilanları listele
-- [ ] Çıkış yapma butonu
+- [x] Profil ekranı (ad, e-posta, tel)
+- [x] Kullanıcının eklediği ilanları listele
+- [x] Çıkış yapma butonu
 
 ---
 

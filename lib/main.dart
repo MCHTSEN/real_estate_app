@@ -32,6 +32,7 @@ class MainApp extends ConsumerWidget {
       title: 'Emlak Uygulaması',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.grey[100],
         appBarTheme: const AppBarTheme(

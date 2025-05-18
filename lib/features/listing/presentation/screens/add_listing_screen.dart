@@ -33,12 +33,128 @@ final Map<String, Map<String, List<String>>> districtNeighborhoods = {
   'Kadıköy': {
     'Merkez': ['Caferağa', 'Osmanağa', 'Rasimpaşa'],
     'Sahil': ['Caddebostan', 'Suadiye', 'Fenerbahçe'],
+    'Diğer': ['Acıbadem', 'Erenköy', 'Göztepe', 'Koşuyolu', 'Zühtüpaşa'],
   },
   'Beşiktaş': {
     'Merkez': ['Sinanpaşa', 'Türkali', 'Vişnezade'],
     'Sahil': ['Ortaköy', 'Arnavutköy', 'Bebek'],
+    'Diğer': ['Etiler', 'Levazım', 'Yıldız', 'Kuruçeşme'],
   },
-  // Add more districts and neighborhoods as needed
+  'Üsküdar': {
+    'Merkez': ['Mimar Sinan', 'Aziz Mahmud Hüdayi', 'Sultantepe'],
+    'Sahil': ['Kuzguncuk', 'Beylerbeyi', 'Çengelköy'],
+    'Diğer': ['Burhaniye', 'İcadiye', 'Kirazlıtepe', 'Küplüce'],
+  },
+  'Şişli': {
+    'Merkez': ['Harbiye', 'Teşvikiye', 'Meşrutiyet'],
+    'Ulaşım': ['Mecidiyeköy', 'Gayrettepe', 'Esentepe'],
+    'Diğer': ['Bomonti', 'Feriköy', 'Kurtuluş', 'Nişantaşı'],
+  },
+  'Maltepe': {
+    'Merkez': ['Altayçeşme', 'Bağlarbaşı', 'Cevizli'],
+    'Sahil': ['İdealtepe', 'Küçükyalı', 'Yalı'],
+    'Diğer': ['Aydınevler', 'Büyükbakkalköy', 'Fındıklı', 'Girne'],
+  },
+  'Çankaya': {
+    'Merkez': ['Kızılay', 'Maltepe', 'Anıttepe'],
+    'Lüks': ['Gaziosmanpaşa', 'Çukurambar', 'Balgat'],
+    'Diğer': ['Bahçelievler', 'Emek', 'Sokullu', 'Yüzüncüyıl'],
+  },
+  'Keçiören': {
+    'Merkez': ['Aktepe', 'Bağlum', 'Etlik'],
+    'Ulaşım': ['Sanatoryum', 'Ufuktepe', 'Yükseltepe'],
+    'Diğer': ['Esertepe', 'İncirli', 'Kalaba', 'Ovacık'],
+  },
+  'Yenimahalle': {
+    'Merkez': ['Batıkent', 'Demetevler', 'Yenimahalle'],
+    'Sanayi': ['Ostim', 'İvedik', 'Gimat'],
+    'Diğer': ['Çayyolu', 'Yaşamkent', 'Susuz', 'Kardelen'],
+  },
+  'Mamak': {
+    'Merkez': ['Abidinpaşa', 'Anayurt', 'Mamak'],
+    'Gecekondu': ['Hüseyin Gazi', 'Kayaş', 'Kutludüğün'],
+    'Diğer': ['Akdere', 'Bostancık', 'Şirintepe', 'Zirvekent'],
+  },
+  'Etimesgut': {
+    'Merkez': ['Eryaman', 'Elvankent', 'Sincan'],
+    'Askeri': ['Zırhlı Birlikler', 'Topçu Okulu'],
+    'Diğer': ['Bağlıca', 'Piyade Mahallesi', 'Yapracık', 'Ahi Mesut'],
+  },
+  'Karşıyaka': {
+    'Merkez': ['Alaybey', 'Bostanlı', 'Karşıyaka'],
+    'Sahil': ['Mavişehir', 'Atakent', 'Yalı'],
+    'Diğer': ['Örnekköy', 'Şemikler', 'Tuna', 'Zübeyde Hanım'],
+  },
+  'Bornova': {
+    'Merkez': ['Bornova', 'Küçükpark', 'Büyükpark'],
+    'Üniversite': ['Evka 3', 'Kazımdirik', 'Atatürk Mahallesi'],
+    'Diğer': ['Altındağ', 'Çamdibi', 'Işıkkent', 'Mevlana'],
+  },
+  'Konak': {
+    'Merkez': ['Alsancak', 'Çankaya', 'Güzelyalı'],
+    'Tarihi': ['Kemeraltı', 'Basmane', 'Agora'],
+    'Diğer': ['Göztepe', 'Hatay', 'İzmirspor', 'Yeşilyurt'],
+  },
+  'Buca': {
+    'Merkez': ['Buca', 'Şirinyer', 'Evka 1'],
+    'Üniversite': ['Tınaztepe', 'Doğuş', 'Göksu'],
+    'Diğer': ['Adatepe', 'Gaziler', 'İnkılap', 'Kozağaç'],
+  },
+  'Çiğli': {
+    'Merkez': ['Çiğli', 'Balatçık', 'Evka 5'],
+    'Sanayi': ['AOSB', 'İZSİAD'],
+    'Diğer': ['Güzeltepe', 'Harmandalı', 'Sasalı', 'Yakakent'],
+  },
+  'Nilüfer': {
+    'Merkez': ['Nilüfer', 'FSM Bulvarı', 'Beşevler'],
+    'Sanayi': ['NOSAB', 'KOSAB'],
+    'Diğer': ['Balat', 'Görükle', 'İhsaniye', 'Üniversite'],
+  },
+  'Osmangazi': {
+    'Merkez': ['Osmangazi', 'Heykel', 'Çarşamba'],
+    'Tarihi': ['Hisar', 'Ulu Cami', 'Koza Han'],
+    'Diğer': ['Demirtaş', 'Gülbahçe', 'Soğanlı', 'Yeniceabat'],
+  },
+  'Yıldırım': {
+    'Merkez': ['Yıldırım', 'Setbaşı', 'Teleferik'],
+    'Sanayi': ['Otosansit', 'Vakıfköy'],
+    'Diğer': ['Değirmenönü', 'Hacivat', 'Millet', 'Şükraniye'],
+  },
+  'Mudanya': {
+    'Merkez': ['Mudanya', 'Güzelyalı', 'Zeytinbağı'],
+    'Sahil': ['Kumyaka', 'Tirilye'],
+    'Diğer': ['Bademli', 'Çağrışan', 'Mesudiye', 'Yeniköy'],
+  },
+  'Gemlik': {
+    'Merkez': ['Gemlik', 'Kurşunlu', 'Küçükkumla'],
+    'Sanayi': ['Serbest Bölge'],
+    'Diğer': ['Hamidiye', 'Haydariye', 'Umurbey', 'Yenikent'],
+  },
+  'Muratpaşa': {
+    'Merkez': ['Muratpaşa', 'Kaleiçi', 'Lara'],
+    'Turizm': ['Falezler', 'Şirinyalı'],
+    'Diğer': ['Bayındır', 'Güzeloba', 'Kızıltoprak', 'Yeşildere'],
+  },
+  'Konyaaltı': {
+    'Merkez': ['Konyaaltı', 'Liman', 'Hurma'],
+    'Turizm': ['Beachpark', 'Aqualand'],
+    'Diğer': ['Akkuyu', 'Gürsu', 'Liman', 'Uncalı'],
+  },
+  'Kepez': {
+    'Merkez': ['Kepez', 'Varsak', 'Gülveren'],
+    'Sanayi': ['Organize Sanayi'],
+    'Diğer': ['Ahatlı', 'Dokuma', 'Kanal', 'Teomanpaşa'],
+  },
+  'Alanya': {
+    'Merkez': ['Alanya', 'Oba', 'Tosmur'],
+    'Turizm': ['Kleopatra Plajı', 'Damlatas Mağarası'],
+    'Diğer': ['Cikcilli', 'Kestel', 'Mahmutlar', 'Payallar'],
+  },
+  'Manavgat': {
+    'Merkez': ['Manavgat', 'Side', 'Sorgun'],
+    'Turizm': ['Titreyengöl', 'Kumköy'],
+    'Diğer': ['Çolaklı', 'Evrenseki', 'Ilıca', 'Oymapınar'],
+  },
 };
 
 class AddListingScreen extends ConsumerStatefulWidget {
@@ -122,6 +238,22 @@ class _AddListingScreenState extends ConsumerState<AddListingScreen> {
     ref.read(typeProvider.notifier).state = random.nextBool() ? 'sell' : 'rent';
     ref.read(selectedCityProvider.notifier).state = city;
     ref.read(selectedDistrictProvider.notifier).state = district;
+    // Select a random neighborhood if district and its neighborhoods exist
+    if (districtNeighborhoods.containsKey(district) &&
+        districtNeighborhoods[district]!.isNotEmpty) {
+      final neighborhoodsMap = districtNeighborhoods[district]!;
+      final neighborhoodKeys = neighborhoodsMap.keys.toList();
+      if (neighborhoodKeys.isNotEmpty) {
+        final randomNeighborhoodKey =
+            neighborhoodKeys[random.nextInt(neighborhoodKeys.length)];
+        final neighborhoods = neighborhoodsMap[randomNeighborhoodKey]!;
+        if (neighborhoods.isNotEmpty) {
+          final neighborhood =
+              neighborhoods[random.nextInt(neighborhoods.length)];
+          ref.read(selectedNeighborhoodProvider.notifier).state = neighborhood;
+        }
+      }
+    }
 
     _titleController.text = titles[random.nextInt(titles.length)];
     _descriptionController.text =
@@ -405,6 +537,34 @@ class _AddListingScreenState extends ConsumerState<AddListingScreen> {
                     },
               validator: (value) => value == null ? 'Lütfen ilçe seçin' : null,
             ),
+            const SizedBox(height: 16),
+            DropdownButtonFormField<String>(
+              value: selectedNeighborhood,
+              decoration: const InputDecoration(
+                labelText: 'Mahalle',
+                border: OutlineInputBorder(),
+              ),
+              items: selectedDistrict != null &&
+                      districtNeighborhoods.containsKey(selectedDistrict)
+                  ? districtNeighborhoods[selectedDistrict]!
+                      .values
+                      .expand((list) => list)
+                      .map((String neighborhood) {
+                      return DropdownMenuItem<String>(
+                        value: neighborhood,
+                        child: Text(neighborhood),
+                      );
+                    }).toList()
+                  : [],
+              onChanged: selectedDistrict == null
+                  ? null
+                  : (String? newValue) {
+                      ref.read(selectedNeighborhoodProvider.notifier).state =
+                          newValue;
+                    },
+              validator: (value) =>
+                  value == null ? 'Lütfen mahalle seçin' : null,
+            ),
           ],
         ),
       ),
@@ -603,8 +763,11 @@ class _AddListingScreenState extends ConsumerState<AddListingScreen> {
 
     final selectedCity = ref.read(selectedCityProvider);
     final selectedDistrict = ref.read(selectedDistrictProvider);
+    final selectedNeighborhood = ref.read(selectedNeighborhoodProvider);
 
-    if (selectedCity == null || selectedDistrict == null) {
+    if (selectedCity == null ||
+        selectedDistrict == null ||
+        selectedNeighborhood == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
             content: Text('Lütfen konum bilgilerini eksiksiz doldurun')),
@@ -629,6 +792,7 @@ class _AddListingScreenState extends ConsumerState<AddListingScreen> {
         'description': _descriptionController.text.trim(),
         'price': int.parse(_priceController.text.trim()),
         'location': '$selectedCity/$selectedDistrict',
+        'neighborhood': selectedNeighborhood,
         'squareMeters': int.parse(_squareMetersController.text.trim()),
         'roomCount': int.parse(_roomCountController.text.trim()),
         'imageUrls': imageUrls,

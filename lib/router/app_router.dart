@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:real_estate_app/features/auth/presentation/screens/register_screen.dart';
+import 'package:real_estate_app/features/auth/presentation/screens/user_details_screen.dart';
 import 'package:real_estate_app/features/auth/providers/auth_provider.dart';
+import 'package:real_estate_app/features/auth/providers/user_provider.dart';
 import 'package:real_estate_app/features/home/presentation/screens/home_screen.dart';
 import 'package:real_estate_app/features/listing/presentation/screens/add_listing_screen.dart';
 import 'package:real_estate_app/features/profile/presentation/screens/profile_screen.dart';
@@ -12,6 +14,10 @@ import 'package:real_estate_app/features/splash/splash_screen.dart';
 final appRouterProvider = Provider<GoRouter>((ref) {
   debugPrint('📍 Initializing Router Provider');
   final authState = ref.watch(authProvider);
+  final userDetailsState = ref.watch(userProvider);
+  final needsUserDetailsCompletion =
+      ref.watch(userDetailsCompletionNotifierProvider);
+
   debugPrint(
       '👤 Current Auth State: ${authState.value != null ? "Logged In" : "Not Logged In"}');
 
@@ -22,7 +28,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           '🔄 Router Redirect Check - Current Location: ${state.matchedLocation}');
 
       // Don't redirect when auth state is still loading
-      if (authState.isLoading || authState.hasError) {
+      if (authState.isLoading ||
+          authState.hasError ||
+          userDetailsState.isLoading) {
         debugPrint('⏳ Auth State is loading or has error - No redirect');
         return null;
       }
@@ -30,14 +38,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       final isLoggedIn = authState.value != null;
       final isGoingToLogin = state.matchedLocation == '/login';
       final isGoingToRegister = state.matchedLocation == '/register';
+      final isGoingToUserDetails = state.matchedLocation == '/user-details';
 
       debugPrint(
-          '📊 Route Status - LoggedIn: $isLoggedIn, GoingToLogin: $isGoingToLogin, GoingToRegister: $isGoingToRegister');
+          '📊 Route Status - LoggedIn: $isLoggedIn, GoingToLogin: $isGoingToLogin, GoingToRegister: $isGoingToRegister, GoingToUserDetails: $isGoingToUserDetails');
 
       // If not logged in and not going to auth screens, redirect to login
       if (!isLoggedIn &&
           !isGoingToLogin &&
           !isGoingToRegister &&
+          !isGoingToUserDetails &&
           state.matchedLocation != '/') {
         debugPrint('🔒 User not logged in - Redirecting to login');
         return '/login';
@@ -47,6 +57,19 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       if (isLoggedIn && (isGoingToLogin || isGoingToRegister)) {
         debugPrint('🏠 User already logged in - Redirecting to home');
         return '/home';
+      }
+
+      // If logged in, user details are missing, and not already going to user-details, redirect there
+      if (isLoggedIn &&
+          needsUserDetailsCompletion &&
+          !isGoingToUserDetails &&
+          !isGoingToLogin &&
+          !isGoingToRegister) {
+        debugPrint('📝 User details missing - Redirecting to /user-details');
+        final currentUser = ref.read(firebaseUserProvider).asData?.value;
+        if (currentUser != null) {
+          return '/user-details/${currentUser.uid}';
+        }
       }
 
       // If user is on splash screen and auth state is determined, redirect to appropriate screen
@@ -104,6 +127,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           debugPrint('🎨 Building Profile Screen');
           return const ProfileScreen();
+        },
+      ),
+      GoRoute(
+        name: 'user-details',
+        path: '/user-details/:uid',
+        builder: (context, state) {
+          debugPrint('🎨 Building User Details Screen');
+          final uid = state.pathParameters['uid']!;
+          return UserDetailsScreen(uid: uid);
         },
       ),
     ],

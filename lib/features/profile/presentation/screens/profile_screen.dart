@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_app/features/auth/providers/auth_provider.dart';
+import 'package:real_estate_app/features/auth/providers/user_provider.dart';
 import 'package:real_estate_app/features/home/domain/models/listing_model.dart';
 import 'package:real_estate_app/features/home/presentation/widgets/listing_card.dart';
 import 'package:real_estate_app/features/home/providers/listing_provider.dart';
@@ -15,6 +16,7 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     developer.log('ProfileScreen: build called');
     final authState = ref.watch(authProvider);
+    final userModelData = ref.watch(userProvider);
     developer.log('ProfileScreen: authState = $authState');
 
     return authState.when(
@@ -65,7 +67,13 @@ class ProfileScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        user.email ?? 'Kullanıcı',
+                        userModelData.when(
+                          data: (userModel) => userModel != null
+                              ? '${userModel.firstName} ${userModel.lastName}'
+                              : user.email ?? 'Kullanıcı',
+                          loading: () => 'Yükleniyor...',
+                          error: (e, s) => user.email ?? 'Kullanıcı',
+                        ),
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -106,7 +114,8 @@ class ProfileScreen extends ConsumerWidget {
                       // Display user listings
                       Consumer(
                         builder: (context, ref, child) {
-                          developer.log('ProfileScreen: Consumer builder called');
+                          developer
+                              .log('ProfileScreen: Consumer builder called');
                           final userListingsAsync =
                               ref.watch(userListingsProvider(user.uid));
                           developer.log(
@@ -202,7 +211,8 @@ class ProfileScreen extends ConsumerWidget {
         );
       },
       error: (error, stack) {
-        developer.log('ProfileScreen: authState.when error: $error, stack: $stack');
+        developer
+            .log('ProfileScreen: authState.when error: $error, stack: $stack');
         return Center(
           child: Text('Hata: $error'),
         );

@@ -32,8 +32,7 @@ class AuthService {
   // Register with email and password
   Future<UserCredential> createUserWithEmailAndPassword(
       String email, String password) async {
-    developer
-        .log('createUserWithEmailAndPassword: called with email: $email');
+    developer.log('createUserWithEmailAndPassword: called with email: $email');
     try {
       final userCredential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);

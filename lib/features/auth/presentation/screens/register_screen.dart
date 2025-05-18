@@ -41,7 +41,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             _emailController.text.trim(),
             _passwordController.text,
           );
-      // Registration successful, router will handle navigation
+      // Registration successful, get UID and navigate to UserDetailsScreen
+      final user = ref.read(authServiceProvider).currentUser;
+      if (user != null) {
+        // ignore: use_build_context_synchronously
+        context.goNamed('user-details', pathParameters: {'uid': user.uid});
+      }
     } catch (e) {
       // Handle errors
       ref.read(authErrorProvider.notifier).state = e.toString();

@@ -25,102 +25,111 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       body: screens[selectedIndex],
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(99),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              height: 80,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(25),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 10,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
-              ),
-              child: BottomNavigationBar(
-                currentIndex: selectedIndex,
-                type: BottomNavigationBarType.fixed,
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                showSelectedLabels: false,
-                showUnselectedLabels: false,
-                onTap: (index) {
-                  ref.read(selectedNavIndexProvider.notifier).state = index;
-                },
-                selectedItemColor: Theme.of(context).primaryColor,
-                unselectedItemColor: Colors.grey,
-                items: [
-                  BottomNavigationBarItem(
-                    icon: CircleAvatar(
-                      radius: 22,
-                      backgroundColor:
-                          selectedIndex == 0 ? Colors.black : Colors.white,
-                      child: Icon(
-                        Icons.home_outlined,
-                        size: 26,
-                        color: selectedIndex == 0 ? Colors.white : Colors.black,
-                      ),
+      bottomNavigationBar: _buildBottomNavigationBar(context, ref, selectedIndex),
+      floatingActionButton: _buildFloatingActionButton(context),
+    );
+  }
+
+  Widget _buildBottomNavigationBar(
+      BuildContext context, WidgetRef ref, int selectedIndex) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(99),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+            height: 80,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(25),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+            ),
+            child: BottomNavigationBar(
+              currentIndex: selectedIndex,
+              type: BottomNavigationBarType.fixed,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
+              onTap: (index) {
+                ref.read(selectedNavIndexProvider.notifier).state = index;
+              },
+              selectedItemColor: Theme.of(context).primaryColor,
+              unselectedItemColor: Colors.grey,
+              items: [
+                BottomNavigationBarItem(
+                  icon: CircleAvatar(
+                    radius: 22,
+                    backgroundColor:
+                        selectedIndex == 0 ? Colors.black : Colors.white,
+                    child: Icon(
+                      Icons.home_outlined,
+                      size: 26,
+                      color: selectedIndex == 0 ? Colors.white : Colors.black,
                     ),
-                    label: '',
                   ),
-                  BottomNavigationBarItem(
-                    icon: CircleAvatar(
-                      radius: 22,
-                      backgroundColor:
-                          selectedIndex == 1 ? Colors.black : Colors.white,
-                      child: Icon(
-                        Icons.sell_outlined,
-                        size: 26,
-                        color: selectedIndex == 1 ? Colors.white : Colors.black,
-                      ),
+                  label: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: CircleAvatar(
+                    radius: 22,
+                    backgroundColor:
+                        selectedIndex == 1 ? Colors.black : Colors.white,
+                    child: Icon(
+                      Icons.sell_outlined,
+                      size: 26,
+                      color: selectedIndex == 1 ? Colors.white : Colors.black,
                     ),
-                    label: '',
                   ),
-                  BottomNavigationBarItem(
-                    icon: CircleAvatar(
-                      radius: 22,
-                      backgroundColor:
-                          selectedIndex == 2 ? Colors.black : Colors.white,
-                      child: Icon(
-                        Icons.apartment_outlined,
-                        size: 26,
-                        color: selectedIndex == 2 ? Colors.white : Colors.black,
-                      ),
+                  label: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: CircleAvatar(
+                    radius: 22,
+                    backgroundColor:
+                        selectedIndex == 2 ? Colors.black : Colors.white,
+                    child: Icon(
+                      Icons.apartment_outlined,
+                      size: 26,
+                      color: selectedIndex == 2 ? Colors.white : Colors.black,
                     ),
-                    label: '',
                   ),
-                  BottomNavigationBarItem(
-                    icon: CircleAvatar(
-                      radius: 22,
-                      backgroundColor:
-                          selectedIndex == 3 ? Colors.black : Colors.white,
-                      child: Icon(
-                        Icons.person_outline,
-                        size: 26,
-                        color: selectedIndex == 3 ? Colors.white : Colors.black,
-                      ),
+                  label: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: CircleAvatar(
+                    radius: 22,
+                    backgroundColor:
+                        selectedIndex == 3 ? Colors.black : Colors.white,
+                    child: Icon(
+                      Icons.person_outline,
+                      size: 26,
+                      color: selectedIndex == 3 ? Colors.white : Colors.black,
                     ),
-                    label: '',
                   ),
-                ],
-              ),
+                  label: '',
+                ),
+              ],
             ),
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.push('/add-listing');
-        },
-        child: const Icon(Icons.add),
-      ),
+    );
+  }
+
+  Widget _buildFloatingActionButton(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        context.push('/add-listing');
+      },
+      child: const Icon(Icons.add),
     );
   }
 }

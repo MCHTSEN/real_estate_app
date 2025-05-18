@@ -1,6 +1,8 @@
 import 'dart:developer' as developer;
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
@@ -48,6 +50,85 @@ class _AddListingScreenState extends ConsumerState<AddListingScreen> {
     _phoneController.dispose();
     _nameController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (kDebugMode) {
+      // Use post-frame callback to ensure provider scope is ready
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _fillWithMockData();
+      });
+    }
+  }
+
+  // Mock data generator
+  void _fillWithMockData() {
+    if (!kDebugMode) return;
+
+    final random = Random();
+
+    // Lists for random data
+    final titles = [
+      'Ferah ve Aydınlık Daire',
+      'Merkezi Konumda Lüks Konut',
+      'Yeni Yapı Satılık Daire',
+      'Deniz Manzaralı Modern Daire',
+      'Bahçeli Müstakil Ev'
+    ];
+
+    final descriptions = [
+      'Merkezi konumda, yeni yapı, full eşyalı daire. Metro ve alışveriş merkezlerine yakın.',
+      'Geniş ve ferah iç mekan, yüksek tavanlı, açık mutfak konseptli daire.',
+      'Site içerisinde güvenlikli, otoparklı, sosyal olanaklara sahip modern daire.',
+      'Doğa manzaralı, geniş balkonlu, yeni tadilatlı daire.',
+      'Bahçe kullanımlı, müstakil girişli, 2 katlı ev.'
+    ];
+
+    final cities = ['İstanbul', 'Ankara', 'İzmir', 'Bursa', 'Antalya'];
+    final districts = [
+      'Kadıköy',
+      'Beşiktaş',
+      'Çankaya',
+      'Karşıyaka',
+      'Nilüfer'
+    ];
+    final neighborhoods = [
+      'Ataşehir',
+      'Levent',
+      'Bahçelievler',
+      'Bostanlı',
+      'Konak'
+    ];
+
+    final names = [
+      'Ahmet Yılmaz',
+      'Mehmet Demir',
+      'Ayşe Kaya',
+      'Fatma Öztürk',
+      'Ali Can'
+    ];
+
+    // Set random listing type first
+    ref.read(typeProvider.notifier).state = random.nextBool() ? 'sell' : 'rent';
+
+    // Generate random values for text controllers
+    _titleController.text = titles[random.nextInt(titles.length)];
+    _descriptionController.text =
+        descriptions[random.nextInt(descriptions.length)];
+    _priceController.text =
+        (random.nextInt(9000) + 1000).toString(); // 1000-10000 arası
+    _cityController.text = cities[random.nextInt(cities.length)];
+    _districtController.text = districts[random.nextInt(districts.length)];
+    _neighborhoodController.text =
+        neighborhoods[random.nextInt(neighborhoods.length)];
+    _squareMetersController.text =
+        (random.nextInt(150) + 50).toString(); // 50-200 m² arası
+    _roomCountController.text = (random.nextInt(4) + 1).toString(); // 1-5 oda
+    _nameController.text = names[random.nextInt(names.length)];
+    _phoneController.text =
+        '05${random.nextInt(100000000) + 300000000}'; // Random phone number
   }
 
   Future<void> _pickImage() async {

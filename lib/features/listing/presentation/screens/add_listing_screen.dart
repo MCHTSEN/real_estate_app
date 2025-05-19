@@ -18,7 +18,6 @@ final isLoadingProvider = StateProvider<bool>((ref) => false);
 // Location data providers
 final selectedCityProvider = StateProvider<String?>((ref) => null);
 final selectedDistrictProvider = StateProvider<String?>((ref) => null);
-final selectedNeighborhoodProvider = StateProvider<String?>((ref) => null);
 
 // Location data
 final Map<String, List<String>> cityDistricts = {
@@ -27,134 +26,80 @@ final Map<String, List<String>> cityDistricts = {
   'İzmir': ['Karşıyaka', 'Bornova', 'Konak', 'Buca', 'Çiğli'],
   'Bursa': ['Nilüfer', 'Osmangazi', 'Yıldırım', 'Mudanya', 'Gemlik'],
   'Antalya': ['Muratpaşa', 'Konyaaltı', 'Kepez', 'Alanya', 'Manavgat'],
-};
-
-final Map<String, Map<String, List<String>>> districtNeighborhoods = {
-  'Kadıköy': {
-    'Merkez': ['Caferağa', 'Osmanağa', 'Rasimpaşa'],
-    'Sahil': ['Caddebostan', 'Suadiye', 'Fenerbahçe'],
-    'Diğer': ['Acıbadem', 'Erenköy', 'Göztepe', 'Koşuyolu', 'Zühtüpaşa'],
-  },
-  'Beşiktaş': {
-    'Merkez': ['Sinanpaşa', 'Türkali', 'Vişnezade'],
-    'Sahil': ['Ortaköy', 'Arnavutköy', 'Bebek'],
-    'Diğer': ['Etiler', 'Levazım', 'Yıldız', 'Kuruçeşme'],
-  },
-  'Üsküdar': {
-    'Merkez': ['Mimar Sinan', 'Aziz Mahmud Hüdayi', 'Sultantepe'],
-    'Sahil': ['Kuzguncuk', 'Beylerbeyi', 'Çengelköy'],
-    'Diğer': ['Burhaniye', 'İcadiye', 'Kirazlıtepe', 'Küplüce'],
-  },
-  'Şişli': {
-    'Merkez': ['Harbiye', 'Teşvikiye', 'Meşrutiyet'],
-    'Ulaşım': ['Mecidiyeköy', 'Gayrettepe', 'Esentepe'],
-    'Diğer': ['Bomonti', 'Feriköy', 'Kurtuluş', 'Nişantaşı'],
-  },
-  'Maltepe': {
-    'Merkez': ['Altayçeşme', 'Bağlarbaşı', 'Cevizli'],
-    'Sahil': ['İdealtepe', 'Küçükyalı', 'Yalı'],
-    'Diğer': ['Aydınevler', 'Büyükbakkalköy', 'Fındıklı', 'Girne'],
-  },
-  'Çankaya': {
-    'Merkez': ['Kızılay', 'Maltepe', 'Anıttepe'],
-    'Lüks': ['Gaziosmanpaşa', 'Çukurambar', 'Balgat'],
-    'Diğer': ['Bahçelievler', 'Emek', 'Sokullu', 'Yüzüncüyıl'],
-  },
-  'Keçiören': {
-    'Merkez': ['Aktepe', 'Bağlum', 'Etlik'],
-    'Ulaşım': ['Sanatoryum', 'Ufuktepe', 'Yükseltepe'],
-    'Diğer': ['Esertepe', 'İncirli', 'Kalaba', 'Ovacık'],
-  },
-  'Yenimahalle': {
-    'Merkez': ['Batıkent', 'Demetevler', 'Yenimahalle'],
-    'Sanayi': ['Ostim', 'İvedik', 'Gimat'],
-    'Diğer': ['Çayyolu', 'Yaşamkent', 'Susuz', 'Kardelen'],
-  },
-  'Mamak': {
-    'Merkez': ['Abidinpaşa', 'Anayurt', 'Mamak'],
-    'Gecekondu': ['Hüseyin Gazi', 'Kayaş', 'Kutludüğün'],
-    'Diğer': ['Akdere', 'Bostancık', 'Şirintepe', 'Zirvekent'],
-  },
-  'Etimesgut': {
-    'Merkez': ['Eryaman', 'Elvankent', 'Sincan'],
-    'Askeri': ['Zırhlı Birlikler', 'Topçu Okulu'],
-    'Diğer': ['Bağlıca', 'Piyade Mahallesi', 'Yapracık', 'Ahi Mesut'],
-  },
-  'Karşıyaka': {
-    'Merkez': ['Alaybey', 'Bostanlı', 'Karşıyaka'],
-    'Sahil': ['Mavişehir', 'Atakent', 'Yalı'],
-    'Diğer': ['Örnekköy', 'Şemikler', 'Tuna', 'Zübeyde Hanım'],
-  },
-  'Bornova': {
-    'Merkez': ['Bornova', 'Küçükpark', 'Büyükpark'],
-    'Üniversite': ['Evka 3', 'Kazımdirik', 'Atatürk Mahallesi'],
-    'Diğer': ['Altındağ', 'Çamdibi', 'Işıkkent', 'Mevlana'],
-  },
-  'Konak': {
-    'Merkez': ['Alsancak', 'Çankaya', 'Güzelyalı'],
-    'Tarihi': ['Kemeraltı', 'Basmane', 'Agora'],
-    'Diğer': ['Göztepe', 'Hatay', 'İzmirspor', 'Yeşilyurt'],
-  },
-  'Buca': {
-    'Merkez': ['Buca', 'Şirinyer', 'Evka 1'],
-    'Üniversite': ['Tınaztepe', 'Doğuş', 'Göksu'],
-    'Diğer': ['Adatepe', 'Gaziler', 'İnkılap', 'Kozağaç'],
-  },
-  'Çiğli': {
-    'Merkez': ['Çiğli', 'Balatçık', 'Evka 5'],
-    'Sanayi': ['AOSB', 'İZSİAD'],
-    'Diğer': ['Güzeltepe', 'Harmandalı', 'Sasalı', 'Yakakent'],
-  },
-  'Nilüfer': {
-    'Merkez': ['Nilüfer', 'FSM Bulvarı', 'Beşevler'],
-    'Sanayi': ['NOSAB', 'KOSAB'],
-    'Diğer': ['Balat', 'Görükle', 'İhsaniye', 'Üniversite'],
-  },
-  'Osmangazi': {
-    'Merkez': ['Osmangazi', 'Heykel', 'Çarşamba'],
-    'Tarihi': ['Hisar', 'Ulu Cami', 'Koza Han'],
-    'Diğer': ['Demirtaş', 'Gülbahçe', 'Soğanlı', 'Yeniceabat'],
-  },
-  'Yıldırım': {
-    'Merkez': ['Yıldırım', 'Setbaşı', 'Teleferik'],
-    'Sanayi': ['Otosansit', 'Vakıfköy'],
-    'Diğer': ['Değirmenönü', 'Hacivat', 'Millet', 'Şükraniye'],
-  },
-  'Mudanya': {
-    'Merkez': ['Mudanya', 'Güzelyalı', 'Zeytinbağı'],
-    'Sahil': ['Kumyaka', 'Tirilye'],
-    'Diğer': ['Bademli', 'Çağrışan', 'Mesudiye', 'Yeniköy'],
-  },
-  'Gemlik': {
-    'Merkez': ['Gemlik', 'Kurşunlu', 'Küçükkumla'],
-    'Sanayi': ['Serbest Bölge'],
-    'Diğer': ['Hamidiye', 'Haydariye', 'Umurbey', 'Yenikent'],
-  },
-  'Muratpaşa': {
-    'Merkez': ['Muratpaşa', 'Kaleiçi', 'Lara'],
-    'Turizm': ['Falezler', 'Şirinyalı'],
-    'Diğer': ['Bayındır', 'Güzeloba', 'Kızıltoprak', 'Yeşildere'],
-  },
-  'Konyaaltı': {
-    'Merkez': ['Konyaaltı', 'Liman', 'Hurma'],
-    'Turizm': ['Beachpark', 'Aqualand'],
-    'Diğer': ['Akkuyu', 'Gürsu', 'Liman', 'Uncalı'],
-  },
-  'Kepez': {
-    'Merkez': ['Kepez', 'Varsak', 'Gülveren'],
-    'Sanayi': ['Organize Sanayi'],
-    'Diğer': ['Ahatlı', 'Dokuma', 'Kanal', 'Teomanpaşa'],
-  },
-  'Alanya': {
-    'Merkez': ['Alanya', 'Oba', 'Tosmur'],
-    'Turizm': ['Kleopatra Plajı', 'Damlatas Mağarası'],
-    'Diğer': ['Cikcilli', 'Kestel', 'Mahmutlar', 'Payallar'],
-  },
-  'Manavgat': {
-    'Merkez': ['Manavgat', 'Side', 'Sorgun'],
-    'Turizm': ['Titreyengöl', 'Kumköy'],
-    'Diğer': ['Çolaklı', 'Evrenseki', 'Ilıca', 'Oymapınar'],
-  },
+  'Adana': ['Seyhan', 'Yüreğir', 'Çukurova', 'Sarıçam', 'Karaisalı'],
+  'Adıyaman': ['Merkez', 'Kahta', 'Gölbaşı', 'Besni', 'Gerger'],
+  'Afyonkarahisar': ['Merkez', 'Sandıklı', 'Dinar', 'Bolvadin', 'Emirdağ'],
+  'Ağrı': ['Merkez', 'Patnos', 'Doğubayazıt', 'Diyadin', 'Eleşkirt'],
+  'Amasya': ['Merkez', 'Merzifon', 'Suluova', 'Taşova', 'Gümüşhacıköy'],
+  'Artvin': ['Merkez', 'Hopa', 'Borçka', 'Arhavi', 'Şavşat'],
+  'Aydın': ['Merkez', 'Kuşadası', 'Didim', 'Söke', 'Nazilli'],
+  'Balıkesir': ['Merkez', 'Bandırma', 'Edremit', 'Ayvalık', 'Bigadiç'],
+  'Bartın': ['Merkez', 'Amasra', 'Kurucaşile', 'Ulus'],
+  'Batman': ['Merkez', 'Kozluk', 'Sason', 'Beşiri', 'Gercüş'],
+  'Bayburt': ['Merkez', 'Demirözü', 'Aydıntepe'],
+  'Bilecik': ['Merkez', 'Bozüyük', 'Osmaneli', 'Gölpazarı', 'Söğüt'],
+  'Bingöl': ['Merkez', 'Genç', 'Solhan', 'Karlıova', 'Adaklı'],
+  'Bitlis': ['Merkez', 'Tatvan', 'Ahlat', 'Hizan', 'Adilcevaz'],
+  'Bolu': ['Merkez', 'Gerede', 'Mudurnu', 'Göynük', 'Yeniçağa'],
+  'Burdu': ['Merkez', 'Bucak', 'Gölhisar', 'Tefenni', 'Yeşilova'],
+  'Çanakkale': ['Merkez', 'Biga', 'Gelibolu', 'Çan', 'Ezine'],
+  'Çankırı': ['Merkez', 'Kurşunlu', 'Ilgaz', 'Çerkeş', 'Orta'],
+  'Çorum': ['Merkez', 'Sungurlu', 'Osmancık', 'Alaca', 'Bayat'],
+  'Denizli': ['Merkez', 'Pamukkale', 'Çivril', 'Tavas', 'Acıpayam'],
+  'Diyarbakır': ['Merkez', 'Bağlar', 'Kayapınar', 'Yenişehir', 'Sur'],
+  'Düzce': ['Merkez', 'Akçakoca', 'Kaynaşlı', 'Gölyaka', 'Cumayeri'],
+  'Edirne': ['Merkez', 'Keşan', 'Uzunköprü', 'İpsala', 'Enez'],
+  'Elazığ': ['Merkez', 'Kovancılar', 'Karakoçan', 'Palu', 'Arıcak'],
+  'Erzincan': ['Merkez', 'Tercan', 'Refahiye', 'Üzümlü', 'Çayırlı'],
+  'Erzurum': ['Merkez', 'Yakutiye', 'Palandöken', 'Aziziye', 'Oltu'],
+  'Eskişehir': ['Merkez', 'Odunpazarı', 'Tepebaşı', 'Sivrihisar', 'Çifteler'],
+  'Gaziantep': ['Şahinbey', 'Şehitkamil', 'Nizip', 'İslahiye', 'Araban'],
+  'Giresun': ['Merkez', 'Bulancak', 'Görele', 'Espiye', 'Tirebolu'],
+  'Gümüşhane': ['Merkez', 'Kelkit', 'Şiran', 'Torul', 'Köse'],
+  'Hakkari': ['Merkez', 'Yüksekova', 'Şemdinli', 'Çukurca'],
+  'Hatay': ['Antakya', 'İskenderun', 'Reyhanlı', 'Samandağ', 'Kırıkhan'],
+  'Iğdır': ['Merkez', 'Tuzluca', 'Aralık', 'Karakoyunlu'],
+  'Isparta': ['Merkez', 'Yalvaç', 'Şarkikaraağaç', 'Gelendost', 'Eğirdir'],
+  'Kahramanmaraş': ['Merkez', 'Elbistan', 'Afşin', 'Pazarcık', 'Türkoğlu'],
+  'Karabük': ['Merkez', 'Safranbolu', 'Yenice', 'Eskipazar', 'Ovacık'],
+  'Karaman': ['Merkez', 'Ermenek', 'Ayrancı', 'Kazımkarabekir', 'Başyayla'],
+  'Kars': ['Merkez', 'Sarıkamış', 'Kağızman', 'Selim', 'Arpaçay'],
+  'Kastamonu': ['Merkez', 'Tosya', 'Cide', 'İnebolu', 'Taşköprü'],
+  'Kayseri': ['Merkez', 'Kocasinan', 'Melikgazi', 'Talas', 'Develi'],
+  'Kırıkkale': ['Merkez', 'Yahşihan', 'Keskin', 'Delice', 'Sulakyurt'],
+  'Kırklareli': ['Merkez', 'Lüleburgaz', 'Babaeski', 'Vize', 'Pehlivanköy'],
+  'Kırşehir': ['Merkez', 'Kaman', 'Mucur', 'Çiçekdağı', 'Akpınar'],
+  'Kilis': ['Merkez', 'Elbeyli', 'Musabeyli', 'Polateli'],
+  'Kocaeli': ['İzmit', 'Gebze', 'Darıca', 'Körfez', 'Gölcük'],
+  'Konya': ['Meram', 'Karatay', 'Selçuklu', 'Ereğli', 'Akşehir'],
+  'Kütahya': ['Merkez', 'Tavşanlı', 'Simav', 'Gediz', 'Emet'],
+  'Malatya': ['Merkez', 'Yeşilyurt', 'Battalgazi', 'Darende', 'Akçadağ'],
+  'Manisa': ['Merkez', 'Akhisar', 'Turgutlu', 'Salihli', 'Soma'],
+  'Mardin': ['Merkez', 'Artuklu', 'Kızıltepe', 'Nusaybin', 'Midyat'],
+  'Mersin': ['Merkez', 'Tarsus', 'Akdeniz', 'Yenişehir', 'Silifke'],
+  'Muğla': ['Merkez', 'Bodrum', 'Marmaris', 'Fethiye', 'Milas'],
+  'Muş': ['Merkez', 'Varto', 'Malazgirt', 'Bulanık', 'Hasköy'],
+  'Nevşehir': ['Merkez', 'Ürgüp', 'Avanos', 'Gülşehir', 'Derinkuyu'],
+  'Niğde': ['Merkez', 'Bor', 'Çiftlik', 'Ulukışla', 'Altunhisar'],
+  'Ordu': ['Merkez', 'Ünye', 'Fatsa', 'Gölköy', 'Korgan'],
+  'Osmaniye': ['Merkez', 'Kadirli', 'Düziçi', 'Bahçe', 'Hasanbeyli'],
+  'Rize': ['Merkez', 'Çayeli', 'Ardeşen', 'Fındıklı', 'İyidere'],
+  'Sakarya': ['Adapazarı', 'Serdivan', 'Akyazı', 'Hendek', 'Karadeniz'],
+  'Samsun': ['Merkez', 'Bafra', 'Çarşamba', 'Terme', 'Vezirköprü'],
+  'Siirt': ['Merkez', 'Kurtalan', 'Baykan', 'Eruh', 'Şirvan'],
+  'Sinop': ['Merkez', 'Boyabat', 'Gerze', 'Ayancık', 'Türkeli'],
+  'Sivas': ['Merkez', 'Şarkışla', 'Yıldızeli', 'Kangal', 'Gemerek'],
+  'Şırnak': ['Merkez', 'Cizre', 'Silopi', 'İdil', 'Beytüşşebap'],
+  'Tekirdağ': ['Merkez', 'Çorlu', 'Süleymanpaşa', 'Ergene', 'Malkara'],
+  'Tokat': ['Merkez', 'Erbaa', 'Niksar', 'Turhal', 'Zile'],
+  'Trabzon': ['Merkez', 'Ortahisar', 'Akçaabat', 'Araklı', 'Of'],
+  'Tunceli': ['Merkez', 'Pertek', 'Çemişgezek', 'Hozat', 'Mazgirt'],
+  'Şanlıurfa': ['Merkez', 'Haliliye', 'Eyyübiye', 'Siverek', 'Viranşehir'],
+  'Uşak': ['Merkez', 'Eşme', 'Banaz', 'Sivaslı', 'Ulubey'],
+  'Van': ['Merkez', 'Edremit', 'Erciş', 'Özalp', 'Çaldıran'],
+  'Yalova': ['Merkez', 'Çınarcık', 'Çiftlikköy', 'Termal', 'Altınova'],
+  'Yozgat': ['Merkez', 'Sorgun', 'Akdağmadeni', 'Yerköy', 'Sarıkaya'],
+  'Zonguldak': ['Merkez', 'Ereğli', 'Çaycuma', 'Devrek', 'Gökçebey'],
 };
 
 class AddListingScreen extends ConsumerStatefulWidget {
@@ -238,22 +183,6 @@ class _AddListingScreenState extends ConsumerState<AddListingScreen> {
     ref.read(typeProvider.notifier).state = random.nextBool() ? 'sell' : 'rent';
     ref.read(selectedCityProvider.notifier).state = city;
     ref.read(selectedDistrictProvider.notifier).state = district;
-    // Select a random neighborhood if district and its neighborhoods exist
-    if (districtNeighborhoods.containsKey(district) &&
-        districtNeighborhoods[district]!.isNotEmpty) {
-      final neighborhoodsMap = districtNeighborhoods[district]!;
-      final neighborhoodKeys = neighborhoodsMap.keys.toList();
-      if (neighborhoodKeys.isNotEmpty) {
-        final randomNeighborhoodKey =
-            neighborhoodKeys[random.nextInt(neighborhoodKeys.length)];
-        final neighborhoods = neighborhoodsMap[randomNeighborhoodKey]!;
-        if (neighborhoods.isNotEmpty) {
-          final neighborhood =
-              neighborhoods[random.nextInt(neighborhoods.length)];
-          ref.read(selectedNeighborhoodProvider.notifier).state = neighborhood;
-        }
-      }
-    }
 
     _titleController.text = titles[random.nextInt(titles.length)];
     _descriptionController.text =
@@ -476,7 +405,6 @@ class _AddListingScreenState extends ConsumerState<AddListingScreen> {
   Widget _buildLocationSection() {
     final selectedCity = ref.watch(selectedCityProvider);
     final selectedDistrict = ref.watch(selectedDistrictProvider);
-    final selectedNeighborhood = ref.watch(selectedNeighborhoodProvider);
 
     return Card(
       elevation: 2,
@@ -508,7 +436,6 @@ class _AddListingScreenState extends ConsumerState<AddListingScreen> {
               onChanged: (String? newValue) {
                 ref.read(selectedCityProvider.notifier).state = newValue;
                 ref.read(selectedDistrictProvider.notifier).state = null;
-                ref.read(selectedNeighborhoodProvider.notifier).state = null;
               },
               validator: (value) => value == null ? 'Lütfen şehir seçin' : null,
             ),
@@ -532,38 +459,8 @@ class _AddListingScreenState extends ConsumerState<AddListingScreen> {
                   : (String? newValue) {
                       ref.read(selectedDistrictProvider.notifier).state =
                           newValue;
-                      ref.read(selectedNeighborhoodProvider.notifier).state =
-                          null;
                     },
               validator: (value) => value == null ? 'Lütfen ilçe seçin' : null,
-            ),
-            const SizedBox(height: 16),
-            DropdownButtonFormField<String>(
-              value: selectedNeighborhood,
-              decoration: const InputDecoration(
-                labelText: 'Mahalle',
-                border: OutlineInputBorder(),
-              ),
-              items: selectedDistrict != null &&
-                      districtNeighborhoods.containsKey(selectedDistrict)
-                  ? districtNeighborhoods[selectedDistrict]!
-                      .values
-                      .expand((list) => list)
-                      .map((String neighborhood) {
-                      return DropdownMenuItem<String>(
-                        value: neighborhood,
-                        child: Text(neighborhood),
-                      );
-                    }).toList()
-                  : [],
-              onChanged: selectedDistrict == null
-                  ? null
-                  : (String? newValue) {
-                      ref.read(selectedNeighborhoodProvider.notifier).state =
-                          newValue;
-                    },
-              validator: (value) =>
-                  value == null ? 'Lütfen mahalle seçin' : null,
             ),
           ],
         ),
@@ -763,11 +660,8 @@ class _AddListingScreenState extends ConsumerState<AddListingScreen> {
 
     final selectedCity = ref.read(selectedCityProvider);
     final selectedDistrict = ref.read(selectedDistrictProvider);
-    final selectedNeighborhood = ref.read(selectedNeighborhoodProvider);
 
-    if (selectedCity == null ||
-        selectedDistrict == null ||
-        selectedNeighborhood == null) {
+    if (selectedCity == null || selectedDistrict == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
             content: Text('Lütfen konum bilgilerini eksiksiz doldurun')),
@@ -792,7 +686,6 @@ class _AddListingScreenState extends ConsumerState<AddListingScreen> {
         'description': _descriptionController.text.trim(),
         'price': int.parse(_priceController.text.trim()),
         'location': '$selectedCity/$selectedDistrict',
-        'neighborhood': selectedNeighborhood,
         'squareMeters': int.parse(_squareMetersController.text.trim()),
         'roomCount': int.parse(_roomCountController.text.trim()),
         'imageUrls': imageUrls,

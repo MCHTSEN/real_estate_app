@@ -189,7 +189,7 @@ class ListingCard extends ConsumerWidget {
               overflow: TextOverflow.ellipsis,
             ),
             Text(
-              '${listing.location}, ${listing.neighborhood}',
+              listing.location,
               style: TextStyle(
                 color: Colors.grey[700],
                 fontSize: 14,

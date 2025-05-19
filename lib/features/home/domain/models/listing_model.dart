@@ -10,7 +10,6 @@ class ListingModel {
   final String description;
   final int price;
   final String location; // City/District
-  final String neighborhood;
   final int squareMeters;
   final int roomCount;
   final List<String> imageUrls;
@@ -26,7 +25,6 @@ class ListingModel {
     required this.description,
     required this.price,
     required this.location,
-    required this.neighborhood,
     required this.squareMeters,
     required this.roomCount,
     required this.imageUrls,
@@ -44,11 +42,12 @@ class ListingModel {
       description: json['description'] as String,
       price: json['price'] as int,
       location: json['location'] as String,
-      neighborhood: json['neighborhood'] as String,
       squareMeters: json['squareMeters'] as int,
       roomCount: json['roomCount'] as int,
       imageUrls: List<String>.from(json['imageUrls']),
-      createdAt: (json['createdAt'] as Timestamp).toDate(),
+      createdAt: json['createdAt'] is Timestamp
+          ? (json['createdAt'] as Timestamp).toDate()
+          : DateTime.parse(json['createdAt'] as String),
     );
   }
 
@@ -63,11 +62,10 @@ class ListingModel {
       'description': description,
       'price': price,
       'location': location,
-      'neighborhood': neighborhood,
       'squareMeters': squareMeters,
       'roomCount': roomCount,
       'imageUrls': imageUrls,
-      'createdAt': createdAt,
+      'createdAt': createdAt.toIso8601String(),
     };
   }
 }

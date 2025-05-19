@@ -26,7 +26,7 @@ class HomeScreen extends ConsumerWidget {
     ];
 
     return Scaffold(
-      body: screens[selectedIndex],
+      body: SafeArea(child: screens[selectedIndex]),
       bottomNavigationBar:
           _buildBottomNavigationBar(context, ref, selectedIndex),
     );

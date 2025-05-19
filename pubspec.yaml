@@ -40,7 +40,7 @@ flutter:
     - assets/
 
 flutter_icons:
-  android: true
+  android: "launcher_icon"
   ios: true
   image_path: "assets/logow.png"
   remove_alpha_ios: true

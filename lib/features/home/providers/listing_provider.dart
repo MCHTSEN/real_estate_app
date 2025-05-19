@@ -70,6 +70,13 @@ class ListingRepository {
     });
     developer.log('addListing: listing added successfully');
   }
+
+  // Delete a listing
+  Future<void> deleteListing(String listingId) async {
+    developer.log('deleteListing: called with listingId: $listingId');
+    await _firestore.collection('listings').doc(listingId).delete();
+    developer.log('deleteListing: listing deleted successfully');
+  }
 }
 
 // Listing repository provider

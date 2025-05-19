@@ -6,8 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_app/features/auth/providers/auth_provider.dart';
 import 'package:real_estate_app/features/auth/providers/user_provider.dart';
 import 'package:real_estate_app/features/home/domain/models/listing_model.dart';
-import 'package:real_estate_app/features/home/presentation/widgets/listing_card.dart';
 import 'package:real_estate_app/features/home/providers/listing_provider.dart';
+import 'package:real_estate_app/features/profile/presentation/widgets/profile_listing_card.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -257,7 +257,7 @@ class ProfileScreen extends ConsumerWidget {
                               final listing = listings[index];
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 12.0),
-                                child: ListingCard(listing: listing),
+                                child: ProfileListingCard(listing: listing),
                               );
                             },
                             childCount: listings.length,
